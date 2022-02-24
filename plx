@@ -192,7 +192,6 @@ plx_choices() {
   cat "$cache_file"
 }
 
-
 plx_exists() {
   root_command="$1"
   [ -z "$root_command" ] && die 127 "root command required"
@@ -244,7 +243,6 @@ EO_LIST_SUBCOMMANDS_AND_PATHS
   ls ${directory} | awk -v "root_command=$root_command" -v "directory=$directory" -f <(echo $prog)
 }
 
-
 _select_first() {
   local src prog
   src="$1"
@@ -265,7 +263,6 @@ EO_SELECT_FIRST_PROG
 )
   cat "$src" | awk -f <(echo $prog)
 }
-
 
 _available_subcommands() {
   local cache_file
