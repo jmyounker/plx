@@ -4,6 +4,44 @@
 DEFAULT_SUBCMD=default
 SEARCH_PATH="$PATH"
 
+plx_main() {
+  case $( run_mode "$0" ) in
+    "plx")
+      plx_mode "$@"
+      ;;
+    "plx-sh")
+      # shellcheck disable=SC1090
+      source "$1"
+      echo "the plx $0 should call plx_run as it's last option or exit" >&2
+      exit 126
+      ;;
+    "plx-ln")
+      plx_run "$0" "$@"
+      ;;
+    "plx-test")
+      # Test mode does nothing, just exits
+      ;;
+    *)
+      echo "unknown mode RUN_MODE" >&2
+      exit 126
+      ;;
+  esac
+}
+
+run_mode() {
+  if [ $(basename "$1") == "plx-sh" ]; then
+    echo -n "plx-sh"
+  elif [ $(basename "$1") == "plx" ]; then
+    echo -n "plx"
+  elif [ $(basename "$1") == "bats-exec-file" ]; then
+    echo -n "plx-test"
+  elif [ $(basename "$1") == "bats-exec-test" ]; then
+    echo -n "plx-test"
+  else
+    echo -n "plx-ln"
+  fi
+}
+
 plx_mode() {
   case "$1" in
   "commands")
@@ -65,6 +103,9 @@ commands:
  choices ROOT_COMMAND - list subcommand - path pairs one per line
  run ROOT_COMMAND ... - run the command specified by ROOT_COMMAND ...
  exists ROOT_COMMAND - exit with 0 if ROOT_COMMAND exists and 1 otherwise
+ sh ROOT_COMMAND ... - execute ROOT_COMMAND by including it with and passing ... as args
+ ln ROOT_COMMAND ... - execute as if ROOT_COMMAND had been called with arguments ...
+ test - does nothing
 EO_HELP
 }
 
@@ -156,12 +197,6 @@ plx_exists() {
   [ -z "$root_command" ] && die 127 "root command required"
   type -f "$root_command" >/dev/null 2>&1
 }
-
-vertex_config_mode() {
-  echo "args are " "$@"
-  echo "vertex-config mode"
-}
-
 
 # Search the path for matching subcommands. Record them in a file.
 cache_subcommands() {
@@ -277,14 +312,6 @@ option_starts_with_dash() {
   echo $option | head -1 | grep -q -E '^-'
 }
 
-vertex_link_mode() {
-  use_subdirectory_commands
-  use_hyphen_commands
-  use_default_subcommand default
-  search_path="$PATH"
-  plx_run ${0} "$@"
-}
-
 run_default() {
   local cache_file
   cache_file=${1}
@@ -370,46 +397,6 @@ list_commands() {
   short_name=$(echo $(basename "$self") | tr - " ")
   echo "commands:"
   cat "$cache_file" | awk '{print $1}' | awk '!/default/{ print "  " $1}'
-}
-
-vertex_shell_mode() {
-  # shellcheck disable=SC1090
-  source "$1"
-}
-
-run_mode() {
-  if [ $(basename "$1") == "plx-sh" ]; then
-    echo -n "plx-sh"
-  elif [ $(basename "$1") == "plx" ]; then
-    echo -n "plx"
-  elif [ $(basename "$1") == "bats-exec-file" ]; then
-    echo -n "plx-test"
-  elif [ $(basename "$1") == "bats-exec-test" ]; then
-    echo -n "plx-test"
-  else
-    echo -n "plx-ln-s"
-  fi
-}
-
-plx_main() {
-  case $( run_mode "$0" ) in
-    "plx")
-      plx_mode "$@"
-      ;;
-    "plx-sh")
-      vertex_shell_mode "$@"
-      ;;
-    "plx-ln-s")
-      vertex_link_mode "$@"
-      ;;
-    "plx-test")
-      # Test mode does nothing, just exits
-      ;;
-    *)
-      echo "unknown mode RUN_MODE" >&2
-      exit 127
-      ;;
-  esac
 }
 
 plx_main "$@"
