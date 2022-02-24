@@ -3,11 +3,11 @@
 rc=0
 before=""
 while [ $# -gt 0 ]; do
-  if [ "$1" == "--rc" ] || [ "$1" == "-r" ] ; then
+  if [ "$1" == "--rc" ] || [ "$1" == "-r" ]; then
     shift
     rc="$1"
     shift
-  elif [ "$1" == "--0" ] || [ "$1" == "-0" ]; then
+  elif [ "$1" == "--0" ] || [ "$1" == "-0" ] || [ "$1" == "--path" ] || [ "$1" == "-p" ]; then
     echo -n "$before"
     shift
     echo -n $0
