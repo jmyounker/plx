@@ -1,6 +1,5 @@
 #!/bin/bash -e
 
-# There are two modes: name|func
 DEFAULT_SUBCMD=default
 SEARCH_PATH="$PATH"
 
