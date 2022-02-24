@@ -162,7 +162,7 @@ plx_run() {
   else
     debug "No other actions left: list_commands"
     # TODO(jmyounker): print "unknown subcommand" error message
-    list_commands "$self" "$root_command" "$subcommands_available"
+    list_commands "$self" "$root_command" "$subcommands_available" >&2
     exit 127
   fi
 }
