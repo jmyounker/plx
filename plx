@@ -70,8 +70,10 @@ plx_mode() {
     # plx sh SHELL_SOURCE ...
     # sources SHELL_SOURCE with current argv
     shift
-    vertex_shell_mode "$@"
-    exit $?
+    # shellcheck disable=SC1090
+    source "$1"
+    echo "the plx $0 should call plx_run as it's last option or exit" >&2
+    exit 126
     ;;
   "ln")
     # plx link ROOT_COMMAND ...
@@ -87,7 +89,7 @@ plx_mode() {
     ;;
   *)
     plx_usage >&2
-    exit 127
+    exit 126
     ;;
   esac
 }
