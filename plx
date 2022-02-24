@@ -30,6 +30,25 @@ plx_mode() {
     plx_exists "$@"
     exit $?
     ;;
+  "sh")
+    # plx sh SHELL_SOURCE ...
+    # sources SHELL_SOURCE with current argv
+    shift
+    vertex_shell_mode "$@"
+    exit $?
+    ;;
+  "ln")
+    # plx link ROOT_COMMAND ...
+    # runs as if ROOT_COMMAND was executed with arguments ...
+    shift
+    plx_run "$@"
+    exit $?
+    ;;
+  "test")
+    # plx test
+    # does nothing
+    exit 0
+    ;;
   *)
     plx_usage >&2
     exit 127
