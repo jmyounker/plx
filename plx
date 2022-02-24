@@ -1,5 +1,44 @@
 #!/bin/bash -e
 
+# Plx allows you to build sets of programs which can be used as if
+# they were a single program with subcommands. These programs have
+# the format CMD[-SUBCMD]*. Suppose you want a program with the
+# following structure:
+#
+# root
+# root s1
+# root s1 a
+# root s1 b
+# root s2
+# root s2 c
+# root s2 d
+#
+# Those commands correspond to these programs:
+#
+# root
+# root-s1
+# root-s1-a
+# root-s1-b
+# root-s2
+# root-s2-c
+# root-s2-d
+#
+# The leaves are the programs that do the work:
+#
+# root-s1-a
+# root-s1-b
+# root-s2-c
+# root-s2-d
+#
+# The nodes dispatch to the appropriate leaves and allow you to list subcommands:
+#
+# root
+# root-s1
+# root-s2
+#
+# The nodes are links to this program `plx`.
+
+
 DEFAULT_SUBCMD=default
 
 # Dispatch according to the path name this was called with.
