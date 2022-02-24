@@ -1,7 +1,6 @@
 #!/bin/bash -e
 
 DEFAULT_SUBCMD=default
-SEARCH_PATH="$PATH"
 
 plx_main() {
   case $( run_mode "$0" ) in
@@ -120,7 +119,7 @@ plx_run() {
   trap "rm -rf '$td'" EXIT
 
   subcommands_available="$td/subcommands.json"
-  cache_subcommands "$root_command" "$SEARCH_PATH" "$subcommands_available"
+  cache_subcommands "$root_command" "$PATH" "$subcommands_available"
 
   if [ $# -eq 0 ] && has_default "$subcommands_available"; then
     debug "No arguments: run_default"
