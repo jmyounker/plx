@@ -1,0 +1,32 @@
+#!/bin/bash
+
+rc=0
+before=""
+while [ $# -gt 0 ]; do
+  if [ "$1" == "--rc" ] || [ "$1" == "-r" ] ; then
+    shift
+    rc="$1"
+    shift
+  elif [ "$1" == "--0" ] || [ "$1" == "-0" ]; then
+    echo -n "$before"
+    shift
+    echo -n $0
+    before=" "
+  elif [ "$1" == "--name" ] || [ "$1" == "-n" ]; then
+    echo -n "$before"
+    shift
+    echo -n $(basename "$0")
+    before=" "
+  else
+    echo -n "$before"
+    echo -n "$1"
+    shift
+    before=" "
+  fi
+done
+
+if [ "$before" = " " ]; then
+  echo
+fi
+
+exit $rc

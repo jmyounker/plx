@@ -1,0 +1,15 @@
+#!/Users/jeffyounker/repos/plx/plx-sh
+
+use_subdirectory_commands
+use_hyphen_commands
+
+summary="a sample in-process vertex"
+details=$(cat <<EOHELP
+This is a multi-line description of what this program does.
+See there is more than one line.
+EOHELP
+)
+
+plx_run "$@"
+
+
