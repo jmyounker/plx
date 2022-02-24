@@ -58,6 +58,7 @@ plx_mode() {
     # runs ROOT-COMMAND-$1 $[2:] or ROOT-COMMAND $@
     shift
     plx_run "$@"
+    exit $?
     ;;
   "exists")
     # plx exists ROOT-COMMAND
