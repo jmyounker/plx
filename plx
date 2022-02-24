@@ -2,22 +2,31 @@
 
 DEFAULT_SUBCMD=default
 
+# Dispatch according to the path name this was called with.
 plx_main() {
   case $( run_mode "$0" ) in
     "plx")
+      # Invoked as an external program. Either used by commands written in
+      # other languages, or by developers trying to see what plx does.
       plx_mode "$@"
       ;;
     "plx-sh")
+      # Invoked as an interpreter, so run the first argument is the source
+      # file's name, and we let bash run it in our context. Because this is
+      # a function, it will be invoked *after* all of this file has been
+      # parsed and all the functions have been defined for the sourced code.
       # shellcheck disable=SC1090
       source "$1"
       echo "the plx $0 should call plx_run as it's last option or exit" >&2
       exit 126
       ;;
     "plx-ln")
+      # Invoked via a link, so we operate as the generic command "$0"
       plx_run "$0" "$@"
       ;;
     "plx-test")
-      # Test mode does nothing, just exits
+      # Test mode does nothing, just exit returns. This lets the testing
+      # framework Bats import the code.
       ;;
     *)
       echo "unknown mode RUN_MODE" >&2
@@ -26,6 +35,12 @@ plx_main() {
   esac
 }
 
+# Determine execution mode based on executable name (argv[0]).
+# The possible execution modes are:
+#   plx-sh - this is shell scripting using plx as an interpreter.
+#   plx - the caller is interacting with plx as an external program
+#   plx-test - the test harness is importing this plx
+#   plx-ln - plx is being invoked as a command dispatcher via a link
 run_mode() {
   if [ $(basename "$1") == "plx-sh" ]; then
     echo -n "plx-sh"
@@ -85,7 +100,7 @@ plx_mode() {
     ;;
   "test")
     # plx test
-    # does nothing
+    # does nothing since this is invoked from subcommands
     exit 0
     ;;
   *)
