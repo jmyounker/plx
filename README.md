@@ -3,6 +3,36 @@
 Plx allows you to assemble dispart programs into something behaves like a single program with
 nested subcommands. Plx provides the menus and dispatching.
 
+## Install
+
+`cd` into the project's root and type `make install`:
+
+```
+> make install
+install -m 0755 plx /usr/local/bin/plx
+ln -sf /usr/local/bin/plx /usr/local/bin/plx-sh
+>
+```
+
+Set `PREFIX` or `BINDIR` to install to another location. Using `PREFIX`:
+
+```
+> PREFIX=/usr make install
+install -m 0755 plx /usr/bin/plx
+ln -sf /usr/bin/plx /usr/bin/plx-sh
+>
+```
+
+Using `BINDR`:
+
+```
+> PREFIX=/tmp make install
+install -m 0755 plx /tmp/plx
+ln -sf /tmp/plx /tmp/plx-sh
+>
+```
+
+
 ## Usage
 
 Suppose you want a program that works like the following:
