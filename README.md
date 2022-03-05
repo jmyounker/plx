@@ -150,3 +150,17 @@ car
 you ran car!
 >
 ```
+
+## Building your own menu nodes
+
+Instead of making menus by linking to `plx` you can use `plx-sh` as an interpreter. The simplest
+possible replacement for `foo` in the examples above would be the following program:
+
+```
+#!/usr/local/bin/plx-sh
+
+plx_run "$@"
+```
+
+The bash function `plx_run` implements all the action you've seen. The file's contents are just
+a bash script.
