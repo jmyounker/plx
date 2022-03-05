@@ -83,3 +83,40 @@ This works just by as with the first example:
 > chmod a+x /usr/local/bin/foo-bam-cod
 >
 ```
+
+And now we can see the subcommands:
+```
+> foo commands
+bam
+bar
+baz
+> foo bam commands
+car
+cod
+> foo bam car
+you ran car!
+> foo bam cod
+you ran cod!
+>
+```
+
+### Make another level below an existing command
+
+Suppose we want to add a subcommand `car` to `foo bar` from the preceeding examples:
+
+```
+> mv /usr/local/bin/foo-bar /usr/local/bin/foo-bar-default
+> ln -s $(which plx) /usr/local/bin/foo-bar
+> print '#!/usr/bin/env bash\necho "you ran car!"' > /usr/local/bin/foo-bar-car
+> chmod a+x /usr/local/bin/foo-bar-car
+>
+```
+
+And now we have a subcommand:
+```
+> foo bar commands
+car
+> foo bar car
+you ran car!
+>
+```
