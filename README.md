@@ -3,7 +3,7 @@
 Plx allows you to assemble dispart programs into something behaves like a single program with
 nested subcommands. Plx provides the menus and dispatching.
 
-## Example
+## Usage
 
 Suppose you want a program that works like the following:
 
@@ -18,7 +18,7 @@ you ran baz!
 >
 ```
 
-So let's build it
+So let's build it:
 ```
 > ln -s $(which plx) /usr/local/bin/foo
 > print '#!/usr/bin/env bash\necho "you ran bar!"' > /usr/local/bin/foo-bar
@@ -50,7 +50,7 @@ This is done by adding a default action:
 >
 ```
 
-And `foo commands` still works too
+And `foo commands` still works too:
 ```
 > foo
 you ran foo!
@@ -60,3 +60,26 @@ baz
 >
 ```
 
+### Adding another layer of commands
+
+So let`s extend `foo` with another layer of subcommands. We want to behave like so:
+```
+> foo bam
+car
+cod
+> foo bam car
+you ran car!
+> foo bam cod
+you ran cod!
+>
+```
+
+This works just by as with the first example:
+```
+> ln -s $(which plx) /usr/local/bin/foo-bam
+> print '#!/usr/bin/env bash\necho "you ran car!"' > /usr/local/bin/foo-bam-car
+> chmod a+x /usr/local/bin/foo-bam-car
+> print '#!/usr/bin/env bash\necho "you ran cod!"' > /usr/local/bin/foo-bam-cod
+> chmod a+x /usr/local/bin/foo-bam-cod
+>
+```
