@@ -112,7 +112,7 @@ Suppose we want to add a subcommand `car` to `foo bar` from the preceeding examp
 >
 ```
 
-And now we have a subcommand:
+And now you have a subcommand:
 ```
 > foo bar commands
 car
