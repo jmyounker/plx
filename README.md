@@ -1,4 +1,4 @@
-# Plx a complex of commands
+# Plx a complex of programs
 
 Plx allows you to assemble dispart programs into something behaves like a single program with
 nested subcommands. Plx provides the menus and dispatching.
