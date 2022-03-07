@@ -42,7 +42,7 @@ Suppose you want a program that works like the following:
 bar
 baz
 > foo bar
-you run bar!
+you ran bar!
 > foo baz
 you ran baz!
 >
